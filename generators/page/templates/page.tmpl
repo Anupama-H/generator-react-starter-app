@@ -1,0 +1,16 @@
+/**
+ * Created by ravi.hamsa on 10/8/16.
+ */
+import React, {Component, PropTypes} from "react";
+import {core, components} from 'react-starter-components';
+import navigate from 'react-starter-components/lib/core/navigate'
+const {dataLoader, SmartWrapper, Loader, MessageStack} = core;
+const {Form, TextInput, Select, FormElement} = components.Form;
+const {ViewStateManager, ViewState, List, ListItem} = components.common;
+
+
+class <%= pageName %> extends SmartWrapper {
+  render(){
+    return <div>This is page <%= pageName %></div>
+  }
+}

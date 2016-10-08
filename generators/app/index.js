@@ -4,6 +4,11 @@ var chalk = require('chalk');
 var yosay = require('yosay');
 
 module.exports = yeoman.Base.extend({
+  config: function() {
+    this.config.set('testing', false);
+    this.config.save();
+  },
+
   prompting: function () {
     // Have Yeoman greet the user.
     this.log(yosay(
