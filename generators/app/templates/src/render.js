@@ -5,7 +5,7 @@
 import React, {Component, PropTypes} from "react";
 import ReactDOM from 'react-dom';
 import Promise from 'bluebird';
-import HTML from './components/HTML'
+import HTML from './components/core/HTML'
 
 const context = {
     insertCss: styles => styles._insertCss(),

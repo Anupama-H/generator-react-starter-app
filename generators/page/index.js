@@ -3,6 +3,7 @@ var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
 var  _ = require('lodash');
+var glob = require("glob")
 
 module.exports = yeoman.Base.extend({
 
@@ -18,6 +19,33 @@ module.exports = yeoman.Base.extend({
     this.pageName = _.upperFirst(_.camelCase(this.pageNameWithPath.substr(lastIndexOfSlash)));
   },
 
+  writingComponentIndex: function () {
+
+    var self = this;
+    var folder = 'src/components/';
+
+    var done = this.async();
+
+    glob(folder + "**/*.js", {}, function (er, files) {
+
+      var content = ''
+      var importNames = []
+      _.each(files, function (fileName) {
+        fileName = fileName.substr(folder.length, fileName.length - 3 - folder.length);
+        var parts = fileName.split('/');
+
+        var importName = _.upperFirst(_.uniq(parts).join('_'))
+        if(importName !=='Index'){
+          importNames.push(importName);
+          content += 'import ' + importName + ' from "./' + fileName + '"\n';
+        }
+      })
+      content += 'export default {' + importNames.join(', ') + '}';
+      self.componentString = 'import {' + importNames.join(', ') + '} from \'../components/index\'';
+      done();
+    })
+  },
+
   writing: function () {
 
     var pageFullName = this.pageName;
@@ -30,8 +58,10 @@ module.exports = yeoman.Base.extend({
     this.fs.copyTpl(
       this.templatePath('page.tmpl'),
       this.destinationPath('src/pages/'+pageFullName+'.js'),
-      { pageName:this.pageName }
+      { pageName:this.pageName, componentString:this.componentString }
     );
+
+
   }
 
 });
