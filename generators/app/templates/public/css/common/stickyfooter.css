@@ -1,0 +1,18 @@
+html,
+body,
+#app,
+#app > div {
+  height: 100%;
+}
+.page-wrap {
+  min-height: 100%;
+  margin-bottom: -35px;
+}
+.page-wrap:after {
+  content: "";
+  display: block;
+}
+footer,
+.page-wrap:after {
+  height: 35px;
+}

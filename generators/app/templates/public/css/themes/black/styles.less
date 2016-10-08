@@ -1,0 +1,92 @@
+@import "variables";
+
+.dark {
+  background-color: @dark-bg-color;
+  color: @dark-font-color;
+  a {
+    color: @dark-link-color;
+  }
+
+  .bordered {
+    border: 1px solid @dark-border-color;
+  }
+
+  .selected {
+    background-color: @dark-selected-bg-color;
+    color: @dark-selected-font-color;
+  }
+
+  .btn-primary {
+    background-color: @dark-primary-button-bg-color;
+    border: 1px solid @dark-primary-button-border-color;
+    color: @dark-primary-button-font-color;
+  }
+}
+
+.light {
+
+  color: @light-font-color;
+  a {
+    color: @light-link-color;
+  }
+
+  .bordered {
+    border: 1px solid @light-border-color;
+  }
+
+  .selected {
+    background-color: @light-selected-bg-color;
+    color: @light-selected-font-color;
+  }
+
+  .btn {
+    background-color: @light-button-bg-color;
+    border: 1px solid @light-button-border-color;
+    color: @light-font-color;
+  }
+
+  .btn-primary {
+    background-color: @light-primary-button-bg-color;
+    border: 1px solid @light-primary-button-border-color;
+    color: @light-primary-button-font-color;
+  }
+
+  .page-wrap {
+    background-color:@light-button-bg-color;
+  }
+
+  .container {
+    background-color: @light-bg-color;
+  }
+
+  h1, h2, h3, h4, h5, strong, b {
+    font-weight: 700;
+    color:@light-heading-font-color;
+  }
+
+  .page-title,  .bread-crumb {
+    border-color:@light-border-color;
+    background-color: @light-bg-color;
+  }
+}
+
+body {
+  .light;
+}
+
+header, menu, footer {
+  .dark;
+}
+
+.form-control {
+  border:1px solid @light-border-color;
+  box-shadow:none;
+  &:focus {
+    border:1px solid @light-selected-bg-color;
+    box-shadow:none;
+  }
+}
+
+
+
+

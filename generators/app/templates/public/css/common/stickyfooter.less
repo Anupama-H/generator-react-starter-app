@@ -1,0 +1,16 @@
+@footer-height:35px;
+
+html, body, #app, #app>div {
+  height: 100%;
+}
+.page-wrap {
+  min-height: 100%;
+  margin-bottom: -@footer-height;
+}
+.page-wrap:after {
+  content: "";
+  display: block;
+}
+footer, .page-wrap:after {
+  height: @footer-height;
+}
