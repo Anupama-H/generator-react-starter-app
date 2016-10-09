@@ -19,11 +19,24 @@ module.exports = yeoman.Base.extend({
     this.pageName = _.upperFirst(_.camelCase(this.pageNameWithPath.substr(lastIndexOfSlash)));
   },
 
+  _getPageFullName: function(){
+    var pageFullName = this.pageName;
+    if(this.pagePath !== ''){
+      pageFullName = this.pagePath+this.pageName;
+    }
+    return pageFullName;
+  },
+
   writingComponentIndex: function () {
 
     var self = this;
     var folder = 'src/components/';
     self.componentString = '';
+
+
+    var relativePrefix = _.map(_.tail(this._getPageFullName().split('/')), function(){
+      return  '../'
+    }).join('')
 
     var done = this.async();
 
@@ -38,6 +51,9 @@ module.exports = yeoman.Base.extend({
       _.each(fileGroups, function (files, groupIndex) {
         var content = '/* ***** generated file - do not edit ***** */ \n'
         var importNames = []
+
+
+
         _.each(files, function (fileName) {
           var suffixLength = folder.length + groupIndex.length;
 
@@ -54,8 +70,9 @@ module.exports = yeoman.Base.extend({
 
         })
 
+
         if (importNames.length > 0 && groupIndex !== 'core') {
-          self.componentString += 'import {' + importNames.join(', ') + '} from "../components/'+groupIndex +'" \n';
+          self.componentString += 'import {' + importNames.join(', ') + '} from \''+relativePrefix+'../components/'+groupIndex +'\' \n';
         }
       })
 
@@ -65,18 +82,14 @@ module.exports = yeoman.Base.extend({
 
   writing: function () {
 
-    var pageFullName = this.pageName;
-    if(this.pagePath !== ''){
-      pageFullName = this.pagePath+this.pageName;
-    }
-
     this.log(this.destinationRoot(), this.destinationPath('src/pages/'));
-
     this.fs.copyTpl(
       this.templatePath('page.tmpl'),
-      this.destinationPath('src/pages/'+pageFullName+'.js'),
+      this.destinationPath('src/pages/'+this._getPageFullName()+'.js'),
       { pageName:this.pageName, componentString:this.componentString }
     );
+
+    this.fs.write(this.destinationPath('public/css/pages/'+this._getPageFullName().toLowerCase()+'.less'), '.'+this._getPageFullName().split('/').join('-').toLowerCase()+' {\n\n}')
 
 
   }

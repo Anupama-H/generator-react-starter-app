@@ -31,6 +31,8 @@ module.exports = yeoman.Base.extend({
       this.destinationPath('src/components/'+componentFullName+'.js'),
       { componentName:this.componentName }
     );
+
+    this.fs.write(this.destinationPath('public/css/components/'+componentFullName.toLowerCase()+'.less'), '.'+componentFullName.split('/').join('-').toLowerCase()+' {\n\n}')
   }
 
 });
