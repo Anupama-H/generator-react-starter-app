@@ -2,12 +2,12 @@
  * Created by ravi.hamsa on 10/8/16.
  */
 import React, {Component, PropTypes} from "react";
-import {core, components} from 'react-starter-components';
+import {core as starterCore, components as starterComponents} from 'react-starter-components';
 import navigate from 'react-starter-components/lib/core/navigate'
 <%- componentString %>
-const {dataLoader, SmartWrapper, Loader, MessageStack} = core;
-const {Form, TextInput, Select, FormElement} = components.Form;
-const {ViewStateManager, ViewState, List, ListItem} = components.common;
+const {dataLoader, SmartWrapper, Loader, MessageStack} = starterCore;
+const {Form, TextInput, Select, FormElement} = starterComponents.Form;
+const {ViewStateManager, ViewState, List, ListItem} = starterComponents.common;
 
 
 export default class <%= pageName %> extends SmartWrapper {

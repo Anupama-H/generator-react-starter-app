@@ -40,13 +40,13 @@ module.exports = yeoman.Base.extend({
           var importName = _.upperFirst(_.camelCase(restPart.replace(/\//g, '-'))).replace(/[a-z]/g, '') + _.upperFirst(lastPart);
           if (lastPart !== 'index') {
             importNames.push(importName);
-            content += 'import ' + importName + ' from ".' + fileName + '"\n';
+            content += 'export ' + importName + ' from ".' + fileName + '"\n';
           }
 
         })
 
         if (importNames.length > 0) {
-          content += 'export default {' + importNames.join(', ') + '}\n';
+          // content += 'export default {' + importNames.join(', ') + '}\n';
           self.fs.write(folder + groupIndex + '/index.js', content);
           self.fs.write(folder + groupIndex + '/package.json', JSON.stringify({
             name: _.upperFirst(groupIndex),
@@ -57,8 +57,6 @@ module.exports = yeoman.Base.extend({
 
         }
       })
-
-
       done();
     })
   },
@@ -70,22 +68,33 @@ module.exports = yeoman.Base.extend({
 
     glob(folder + "**/*.js", {}, function (er, files) {
 
-      var content = ''
+      var content = '/* ***** generated file - do not edit ***** */ \n'
       var importNames = []
       _.each(files, function (fileName) {
         fileName = fileName.substr(folder.length, fileName.length - 3 - folder.length);
-        var parts = fileName.split('/');
-
-        var importName = _.uniq(parts).join('_')
-        importNames.push(importName);
-        content += 'import ' + importName + ' from "./' + fileName + '"\n';
+        var importName = _.upperFirst(_.camelCase(fileName.replace(/\//g, '-')));
+        if(importName !== 'Index'){
+          importNames.push(importName);
+          content += 'export ' + importName + ' from "./' + fileName + '"\n';
+        }
 
       })
-      content += 'export default {' + importNames.join(', ') + '}';
+      // content += 'export default {' + importNames.join(', ') + '}';
+
+
 
       self.fs.write(folder + 'index.js', content)
+      self.fs.write(folder + '/package.json', JSON.stringify({
+        name: 'Pages',
+        version: '0.0.0',
+        private: true,
+        main: './index.js'
+      }));
     })
   },
 
+  writeRoutes:function(){
+
+  }
 
 });

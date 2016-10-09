@@ -23,26 +23,43 @@ module.exports = yeoman.Base.extend({
 
     var self = this;
     var folder = 'src/components/';
+    self.componentString = '';
 
     var done = this.async();
 
+
     glob(folder + "**/*.js", {}, function (er, files) {
 
-      var content = ''
-      var importNames = []
-      _.each(files, function (fileName) {
+      var fileGroups = _.groupBy(files, function (fileName) {
         fileName = fileName.substr(folder.length, fileName.length - 3 - folder.length);
-        var parts = fileName.split('/');
+        return fileName.substr(0, fileName.indexOf('/'))
+      })
 
-        var importName = _.upperFirst(_.uniq(parts).join('_'))
-        if(importName !=='Index'){
-          importNames.push(importName);
-          content += 'import ' + importName + ' from "./' + fileName + '"\n';
+      _.each(fileGroups, function (files, groupIndex) {
+        var content = '/* ***** generated file - do not edit ***** */ \n'
+        var importNames = []
+        _.each(files, function (fileName) {
+          var suffixLength = folder.length + groupIndex.length;
+
+          fileName = fileName.substr(suffixLength, fileName.length - 3 - suffixLength);
+          var lastIndex = fileName.lastIndexOf('/') + 1;
+          var lastPart = fileName.substr(lastIndex, suffixLength - lastIndex);
+          var restPart = fileName.substr(0, lastIndex)
+
+          var importName = _.upperFirst(_.camelCase(restPart.replace(/\//g, '-'))).replace(/[a-z]/g, '') + _.upperFirst(lastPart);
+          if (lastPart !== 'index') {
+            importNames.push(importName);
+            content += 'import ' + importName + ' from ".' + fileName + '"\n';
+          }
+
+        })
+
+        if (importNames.length > 0 && groupIndex !== 'core') {
+          self.componentString += 'import {' + importNames.join(', ') + '} from "../components/'+groupIndex +'" \n';
         }
       })
-      content += 'export default {' + importNames.join(', ') + '}';
-      self.componentString = 'import {' + importNames.join(', ') + '} from \'../components/index\'';
-      done();
+
+        done();
     })
   },
 
