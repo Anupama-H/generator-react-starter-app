@@ -73,14 +73,13 @@ module.exports = yeoman.Base.extend({
       _.each(files, function (fileName) {
         fileName = fileName.substr(folder.length, fileName.length - 3 - folder.length);
         var importName = _.upperFirst(_.camelCase(fileName.replace(/\//g, '-')));
-        if(importName !== 'Index'){
+        if (importName !== 'Index') {
           importNames.push(importName);
           content += 'export ' + importName + ' from "./' + fileName + '"\n';
         }
 
       })
       // content += 'export default {' + importNames.join(', ') + '}';
-
 
 
       self.fs.write(folder + 'index.js', content)
@@ -93,8 +92,46 @@ module.exports = yeoman.Base.extend({
     })
   },
 
-  writeRoutes:function(){
+  writeRoutes: function () {
+
+  },
+
+  writeLessImports: function () {
+    var self = this;
+    var folder = 'public/css/components/';
+    var baseFolder = 'public/css/'
+
+    var content = '/* ***** generated file - do not edit ***** */ \n'
+
+    var pagesPromise = new Promise(function (resolve) {
+      glob(folder + "**/*.less", {}, function (er, files) {
+        var str = ''
+        _.each(files, function (fileName) {
+          fileName = fileName.substr(baseFolder.length, fileName.length - 5 - baseFolder.length);
+          str += '@import \"' + fileName + '\"; \n';
+        })
+        resolve(str);
+      })
+    });
+
+
+    var componentsPromise = new Promise(function (resolve) {
+      folder = 'public/css/pages/';
+      glob(folder + "**/*.less", {}, function (er, files) {
+        var str = ''
+        _.each(files, function (fileName) {
+          fileName = fileName.substr(baseFolder.length, fileName.length - 5 - baseFolder.length);
+          str += '@import \"' + fileName + '\"; \n';
+        })
+        resolve(str)
+      })
+    });
+
+    Promise.all([pagesPromise, componentsPromise]).then(function (content) {
+      self.fs.write(baseFolder + 'page-components.less', content.join(''))
+    })
 
   }
+
 
 });
