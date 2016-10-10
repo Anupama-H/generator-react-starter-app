@@ -15,14 +15,17 @@ module.exports = yeoman.Base.extend({
     // And you can then access it later on this way; e.g. CamelCased
     var lastIndexOfSlash =  this.componentNameWithPath.lastIndexOf('/')+1;
     this.componentPath = this.componentNameWithPath.substr(0,lastIndexOfSlash);
-    this.componentName = _.upperFirst(_.camelCase(this.componentNameWithPath.substr(lastIndexOfSlash)));
+    this.componentRealName= this.componentNameWithPath.substr(lastIndexOfSlash)
+    this.componentName = _.upperFirst(_.camelCase(this.componentRealName));
   },
 
   writing: function () {
 
     var componentFullName = this.componentName;
+    var componentRealName = this.componentRealName;
     if(this.componentPath !== ''){
       componentFullName = this.componentPath+this.componentName;
+      componentRealName =  this.componentPath +  this.componentRealName;
     }
 
 
@@ -32,7 +35,7 @@ module.exports = yeoman.Base.extend({
       { componentName:this.componentName }
     );
 
-    this.fs.write(this.destinationPath('public/css/components/'+componentFullName.toLowerCase()+'.less'), '.'+componentFullName.split('/').join('-').toLowerCase()+' {\n\n}')
+    this.fs.write(this.destinationPath('public/css/components/'+componentRealName.toLowerCase()+'.less'), '.'+componentRealName.split('/').join('-').toLowerCase()+' {\n\n}')
   }
 
 });

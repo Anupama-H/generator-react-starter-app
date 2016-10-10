@@ -16,13 +16,22 @@ module.exports = yeoman.Base.extend({
     // And you can then access it later on this way; e.g. CamelCased
     var lastIndexOfSlash =  this.pageNameWithPath.lastIndexOf('/')+1;
     this.pagePath = this.pageNameWithPath.substr(0,lastIndexOfSlash);
-    this.pageName = _.upperFirst(_.camelCase(this.pageNameWithPath.substr(lastIndexOfSlash)));
+    this.pageRealName= this.pageNameWithPath.substr(lastIndexOfSlash)
+    this.pageName = _.upperFirst(_.camelCase(this.pageRealName));
   },
 
   _getPageFullName: function(){
     var pageFullName = this.pageName;
     if(this.pagePath !== ''){
       pageFullName = this.pagePath+this.pageName;
+    }
+    return pageFullName;
+  },
+
+  _getPageRealFullName: function(){
+    var pageFullName = this.pageRealName;
+    if(this.pagePath !== ''){
+      pageFullName = this.pagePath+pageFullName;
     }
     return pageFullName;
   },
@@ -89,7 +98,7 @@ module.exports = yeoman.Base.extend({
       { pageName:this.pageName, componentString:this.componentString }
     );
 
-    this.fs.write(this.destinationPath('public/css/pages/'+this._getPageFullName().toLowerCase()+'.less'), '.'+this._getPageFullName().split('/').join('-').toLowerCase()+' {\n\n}')
+    this.fs.write(this.destinationPath('public/css/pages/'+this._getPageRealFullName().toLowerCase()+'.less'), '.'+this._getPageRealFullName().split('/').join('-').toLowerCase()+' {\n\n}')
 
 
   }
