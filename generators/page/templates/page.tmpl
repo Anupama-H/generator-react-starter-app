@@ -11,7 +11,7 @@ const {ViewStateManager, ViewState, List, ListItem} = starterComponents.common;
 
 
 export default class <%= pageName %> extends SmartWrapper {
-  render(){
-    return <div>This is page <%= pageName %></div>
-  }
+    render(){
+        return <div className="<%= className %>">This is page <%= pageName %></div>
+    }
 }

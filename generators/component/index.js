@@ -17,25 +17,38 @@ module.exports = yeoman.Base.extend({
     this.componentPath = this.componentNameWithPath.substr(0,lastIndexOfSlash);
     this.componentRealName= this.componentNameWithPath.substr(lastIndexOfSlash)
     this.componentName = _.upperFirst(_.camelCase(this.componentRealName));
+    this.className=this._getComponentRealFullName().split('/').join('-').toLowerCase();
+    this.lessFileName = this.destinationPath('public/css/components/'+this._getComponentRealFullName().toLowerCase()+'.less');
+    this.jsFileName ='src/components/'+this._getComponentFullName()+'.js'
+    console.log(this.className, this.jsFileName, this.lessFileName)
+  },
+
+  _getComponentFullName:function(){
+    var componentFullName = this.componentName;
+    if(this.componentPath !== ''){
+      componentFullName = this.componentPath+this.componentName;
+    }
+    return componentFullName;
+  },
+
+  _getComponentRealFullName:function(){
+    var componentRealName = this.componentRealName;
+    if(this.componentPath !== ''){
+      componentRealName =  this.componentPath +  this.componentRealName;
+    }
+    return componentRealName;
   },
 
   writing: function () {
 
-    var componentFullName = this.componentName;
-    var componentRealName = this.componentRealName;
-    if(this.componentPath !== ''){
-      componentFullName = this.componentPath+this.componentName;
-      componentRealName =  this.componentPath +  this.componentRealName;
-    }
-
 
     this.fs.copyTpl(
       this.templatePath('component.tmpl'),
-      this.destinationPath('src/components/'+componentFullName+'.js'),
-      { componentName:this.componentName }
+      this.destinationPath(this.jsFileName),
+      { componentName:this.componentName, className:this.className }
     );
 
-    this.fs.write(this.destinationPath('public/css/components/'+componentRealName.toLowerCase()+'.less'), '.'+componentRealName.split('/').join('-').toLowerCase()+' {\n\n}')
+    this.fs.write(this.lessFileName, '.'+this.className+' {\n\n}')
   }
 
 });

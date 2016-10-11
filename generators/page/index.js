@@ -18,6 +18,10 @@ module.exports = yeoman.Base.extend({
     this.pagePath = this.pageNameWithPath.substr(0,lastIndexOfSlash);
     this.pageRealName= this.pageNameWithPath.substr(lastIndexOfSlash)
     this.pageName = _.upperFirst(_.camelCase(this.pageRealName));
+    this.className=this._getPageRealFullName().split('/').join('-').toLowerCase();
+    this.lessFileName = this.destinationPath('public/css/pages/'+this._getPageRealFullName().toLowerCase()+'.less');
+    this.jsFileName ='src/pages/'+this._getPageFullName()+'.js'
+
   },
 
   _getPageFullName: function(){
@@ -33,6 +37,7 @@ module.exports = yeoman.Base.extend({
     if(this.pagePath !== ''){
       pageFullName = this.pagePath+pageFullName;
     }
+
     return pageFullName;
   },
 
@@ -91,14 +96,13 @@ module.exports = yeoman.Base.extend({
 
   writing: function () {
 
-    this.log(this.destinationRoot(), this.destinationPath('src/pages/'));
     this.fs.copyTpl(
       this.templatePath('page.tmpl'),
-      this.destinationPath('src/pages/'+this._getPageFullName()+'.js'),
-      { pageName:this.pageName, componentString:this.componentString }
+      this.destinationPath(this.jsFileName),
+      { pageName:this.pageName, componentString:this.componentString, className:this.className }
     );
 
-    this.fs.write(this.destinationPath('public/css/pages/'+this._getPageRealFullName().toLowerCase()+'.less'), '.'+this._getPageRealFullName().split('/').join('-').toLowerCase()+' {\n\n}')
+    this.fs.write(this.lessFileName, '.'+this.className+' {\n\n}');
 
 
   }
