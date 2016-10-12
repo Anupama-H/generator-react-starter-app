@@ -20,7 +20,6 @@ module.exports = yeoman.Base.extend({
     this.className=this._getComponentRealFullName().split('/').join('-').toLowerCase();
     this.lessFileName = this.destinationPath('public/css/components/'+this._getComponentRealFullName().toLowerCase()+'.less');
     this.jsFileName ='src/components/'+this._getComponentFullName()+'.js'
-    console.log(this.className, this.jsFileName, this.lessFileName)
   },
 
   _getComponentFullName:function(){
