@@ -31,16 +31,26 @@ module.exports = yeoman.Base.extend({
         var importNames = []
         _.each(files, function (fileName) {
           var suffixLength = folder.length + groupIndex.length;
+          var toAdd = ''
 
           fileName = fileName.substr(suffixLength, fileName.length - 3 - suffixLength);
-          var lastIndex = fileName.lastIndexOf('/') + 1;
-          var lastPart = fileName.substr(lastIndex, suffixLength - lastIndex);
+          var lastIndex = fileName.lastIndexOf('/')+1;
+
+          if(fileName.indexOf('/')  < 0){
+            toAdd = '/';
+          }
+
+
+
+          var lastPart = fileName.substr(lastIndex, fileName.length - lastIndex);
           var restPart = fileName.substr(0, lastIndex)
+
+          // console.log(fileName, lastIndex, suffixLength - lastIndex, lastPart, restPart);
 
           var importName = _.upperFirst(_.camelCase(restPart.replace(/\//g, '-'))).replace(/[a-z]/g, '') + _.upperFirst(lastPart);
           if (lastPart !== 'index') {
             importNames.push(importName);
-            content += 'export ' + importName + ' from ".' + fileName + '"\n';
+            content += 'export ' + importName + ' from ".' + toAdd+fileName + '"\n';
           }
 
         })
