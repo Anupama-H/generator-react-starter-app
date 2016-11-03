@@ -11,14 +11,6 @@ module.exports = yeoman.Base.extend({
 
 
   writing: function () {
-    this.fs.copy(
-      this.templatePath('dummyfile.txt'),
-      this.destinationPath('dummyfile.txt')
-    );
-    this.fs.copy(
-      this.templatePath('.gitignore'),
-      this.destinationPath('.gitignore')
-    );
 
     this.fs.copy(
       this.templatePath('package.json'),
