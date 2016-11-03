@@ -14,6 +14,8 @@ Then generate your new project:
 
 ```bash
 yo react-starter-app
+webpack
+node app.js
 ```
 
 ## Getting To Know Yeoman
