@@ -18,6 +18,22 @@ webpack
 node app.js
 ```
 
+Adding a page (When queried for overwrite always say yes)
+
+```bash
+yo react-starter-app:page test/test-page && yo react-starter-app:updateIndex
+
+```
+
+Adding a component (When queried for overwrite always say yes)
+
+```bash
+yo react-starter-app:component test/test-page && yo react-starter-app:updateIndex
+
+```
+
+
+
 ## Getting To Know Yeoman
 
  * Yeoman has a heart of gold.
