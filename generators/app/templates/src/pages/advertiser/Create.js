@@ -3,16 +3,16 @@
  */
 import React, {Component} from 'react';
 import {core, components} from 'react-starter-components';
-import simpleForm  from '../../components/simpleForm';
+import {SimpleCheckbox, SimpleElement, SimpleSelect, SimpleInput, SimpleTextArea} from '../../components/simpleForm'
 const {SmartWrapper, Loader, MessageStack} = core;
 const {List, ViewStateManager, ViewState} = components.common;
-const {Form, FormElement, SimpleCheckbox, SimpleElement, SimpleSelect, SimpleInput, SimpleTextArea} = simpleForm;
+const {Form, FormElement} = components.Form;
 
 
 export default class AdvertiserCreate extends Component {
     render() {
         return <div>
-            <div className="page-title"><i className="fa fa-user-plus" aria-hidden="true"></i> Create Advertiser</div>
+            <div className="page-title"><i className="fa fa-user-plus" aria-hidden="true"></i> Create Advertiser: Simple Form</div>
             <div className="container">
                 <div className="row">
                     <div className="col-md-12">

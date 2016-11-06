@@ -3,14 +3,8 @@
  */
 import render from './render'
 import Home from './pages/Home';
-import CampaignCreate from './pages/campaign/Create';
-import CampaignList from './pages/campaign/List';
-import AdvertiserCreate from './pages/advertiser/Create';
-import AdvertiserList from './pages/advertiser/List';
-import PublisherCreate from './pages/publisher/Create';
-import PublisherList from './pages/publisher/List';
 
-import Unknown from './pages/Unknown';
+import {AdvertiserCreate, AdvertiserList, CampaignList, CampaignCreate, PublisherList, PublisherCreate, Unknown, UserLogin} from './pages'
 
 
 const parseParams = function (location) {
@@ -48,7 +42,7 @@ export default {
         {
             path: '/',
             action: function (location) {
-                return <Home {...parseParams(location)} pageId="home"/>
+                return <UserLogin {...parseParams(location)} pageId="user-login"/>
             }
         },
         {
@@ -90,6 +84,28 @@ export default {
                     path:'/create',
                     action: function (location) {
                         return <AdvertiserCreate {...parseParams(location)} pageId="advertiser-create"/>
+                    }
+                }
+
+            ]
+        },
+        {
+            path: '/user',
+            async action({ next }) {
+                const component = await next();
+                return component;
+            },
+            children: [
+                {
+                    path:'/',
+                    action: function (location) {
+                        return <UserLogin {...parseParams(location)} pageId="user-login"/>
+                    }
+                },
+                {
+                    path:'/login',
+                    action: function (location) {
+                        return <UserLogin {...parseParams(location)} pageId="user-login"/>
                     }
                 }
 

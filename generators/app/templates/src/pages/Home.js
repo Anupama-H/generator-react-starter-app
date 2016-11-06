@@ -8,33 +8,48 @@ const {List, ViewStateManager, ViewState} = components.common;
 
 
 let categoryListConfig = {
-    dataRequests:[
+    dataRequests: [
         {
-            requestId:'getTier1Categories',
-            propKey:'items',
-            getParams:function(){
+            requestId: 'getListOfSomeItems',
+            //propKey defines name of the prop child component expects
+            propKey: 'items',
+            getParams: function () {
                 return {};
             }
         }
     ]
 }
 
+let dummyData = [{
+    "id": "current_user_url",
+    "name": "https://api.github.com/user"
+}, {
+    "id": "current_user_authorizations_html_url",
+    "name": "https://github.com/settings/connections/applications{/client_id}"
+}]
 
 export default class Home extends Component {
-    render(){
+    render() {
         return <div className="container-fluid">
             <div className="row">
                 <div className="col-md-12">
                     <div className="t-right">
-                        <a href="/#/advertiser">Advertiser</a>
+                        <a href="/#/login">Login</a>
                         <a href="/#/publisher">Publisher</a>
                         <a href="/#/campaign">Campaign</a>
                     </div>
                 </div>
             </div>
+            <h1> List with static content </h1>
+            <SmartWrapper>
+                <List items={dummyData} />
+            </SmartWrapper>
+
+            <h1> List with SmartWrapper </h1>
             <SmartWrapper {...categoryListConfig}>
                 <List />
             </SmartWrapper>
+
         </div>
     }
 }

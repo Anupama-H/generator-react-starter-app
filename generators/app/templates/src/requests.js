@@ -7,26 +7,12 @@ let urlPrefix = 'backend/api/v1/'
 
 
 export default {
-    getTier1Categories: {
+    getListOfSomeItems: {
         type: 'url',
         method: 'get',
         cache:'none',
-        url: urlPrefix + 'meta/firstlevel/tier1categories',
+        url: urlPrefix + 'dummyData',
         parser: function(data){
-            _.each(data, function(item){
-                item.name = item.label;
-                item.id = item.value;
-            })
-            return data;
-        }
-    },
-    getDashboardData: {
-        type:'url',
-        method:'post',
-        cache:'none,',
-        url:urlPrefix+'reporting/dashboard/data',
-        parser: function(data){
-            debugger;
             return data;
         }
     },
