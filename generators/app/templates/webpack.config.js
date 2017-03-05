@@ -4,7 +4,7 @@
 
 var webpack = require('webpack');
 var path = require('path');
-var WatchIgnorePlugin = require("webpack").WatchIgnorePlugin;
+
 
 module.exports = {
   devtool:'source-map',
@@ -31,10 +31,5 @@ module.exports = {
         exclude:/node_modules/
       }
     ]
-  },
-  plugins: [
-    new WatchIgnorePlugin([
-      path.resolve(__dirname, './node_modules/'),
-    ]),
-  ]
+  }
 }
