@@ -2,9 +2,7 @@
  * Created by ravi.hamsa on 9/22/16.
  */
 import React, {Component} from 'react';
-import {core, components} from 'react-starter-components';
-const {SmartWrapper, Loader, MessageStack} = core;
-const {List, ViewStateManager, ViewState} = components.common;
+import {SmartWrapper, Loader, MessageStack, List, ViewStateManager, ViewState} from 'react-starter-components';
 
 
 let categoryListConfig = {

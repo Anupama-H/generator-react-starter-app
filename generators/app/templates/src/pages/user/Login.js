@@ -2,14 +2,8 @@
  * Created by ravi.hamsa on 10/8/16.
  */
 import React, {Component, PropTypes} from "react";
-import {core as starterCore, components as starterComponents} from 'react-starter-components';
-import Selection from 'selection-manager';
-import navigate from 'react-starter-components/lib/core/navigate'
-
-const {dataLoader, SmartWrapper, Loader, MessageStack} = starterCore;
-const {Form, TextInput, Select, FormElement} = starterComponents.Form;
-const {ViewStateManager, ViewState, List, ListItem} = starterComponents.common;
-
+import {Form, TextInput, SmartWrapper} from 'react-starter-components'
+import {Test} from '../../components/user';
 
 export default class Login extends SmartWrapper {
     formSubmitHandler(dataObject){
@@ -27,6 +21,7 @@ export default class Login extends SmartWrapper {
                             <TextInput name="password" placeholder="Enter Password" label="Password" type="password"  validations={[{expr:'req', message:'Password is Required'}]}/>
                             <button className="btn btn-primary">Login</button>
                         </Form>
+                        <Test />
                     </div>
                 </div>
             </div>

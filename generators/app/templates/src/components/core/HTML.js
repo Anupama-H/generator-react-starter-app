@@ -14,7 +14,7 @@ export default class HTML extends Component {
             <div className="page-wrap">
                 <Header></Header>
                 <div className="bread-crumb">Breadcrumb</div>
-                <App pageId={this.props.pageId}>
+                <App>
                     {this.props.children}
                 </App>
             </div>

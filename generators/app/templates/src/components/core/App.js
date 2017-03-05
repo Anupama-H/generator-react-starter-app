@@ -5,7 +5,7 @@ import React, {Component, PropTypes} from "react";
 
 class App extends Component {
     render (){
-        return <div className={'content-body '+this.props.pageId.toLowerCase()}>
+        return <div className='content-body'>
             {this.props.children}
         </div>
 

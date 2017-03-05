@@ -4,7 +4,7 @@
 import render from './render'
 import Home from './pages/Home';
 
-import {AdvertiserCreate, AdvertiserList, CampaignList, CampaignCreate, PublisherList, PublisherCreate, Unknown, UserLogin} from './pages'
+import {Unknown, UserLogin} from './pages'
 
 
 const parseParams = function (location) {
@@ -34,61 +34,12 @@ export default {
         if (component !== undefined) {
             return render(component, userDetails);
         } else {
-            return render(<Unknown pageId="unknown"/>, userDetails);
+            return render(<Unknown/>, userDetails);
         }
 
     },
     children: [
-        {
-            path: '/',
-            action: function (location) {
-                return <UserLogin {...parseParams(location)} pageId="user-login"/>
-            }
-        },
-        {
-            path: '/campaign',
-            async action({ next }) {
-                const component = await next();
-                return component;
-            },
-            children: [
-                {
-                    path:'/',
-                    action: function (location) {
-                        return <CampaignList {...parseParams(location)} pageId="campaign-list"/>
-                    }
-                },
-                {
-                    path:'/create',
-                    action: function (location) {
-                        return <CampaignCreate {...parseParams(location)} pageId="campaign-create"/>
-                    }
-                }
 
-            ]
-        },
-        {
-            path: '/advertiser',
-            async action({ next }) {
-                const component = await next();
-                return component;
-            },
-            children: [
-                {
-                    path:'/',
-                    action: function (location) {
-                        return <AdvertiserList {...parseParams(location)} pageId="advertiser-list"/>
-                    }
-                },
-                {
-                    path:'/create',
-                    action: function (location) {
-                        return <AdvertiserCreate {...parseParams(location)} pageId="advertiser-create"/>
-                    }
-                }
-
-            ]
-        },
         {
             path: '/user',
             async action({ next }) {
@@ -99,20 +50,20 @@ export default {
                 {
                     path:'/',
                     action: function (location) {
-                        return <UserLogin {...parseParams(location)} pageId="user-login"/>
+                        return <UserLogin {...parseParams(location)}/>
                     }
                 },
                 {
                     path:'/login',
                     action: function (location) {
-                        return <UserLogin {...parseParams(location)} pageId="user-login"/>
+                        return <UserLogin {...parseParams(location)}/>
                     }
                 }
 
             ]
         },
         {
-            path: '/publisher',
+            path: '/home',
             async action({ next }) {
                 const component = await next();
                 return component;
@@ -121,17 +72,11 @@ export default {
                 {
                     path:'/',
                     action: function (location) {
-                        return <PublisherList {...parseParams(location)} pageId="publisher-list"/>
-                    }
-                },
-                {
-                    path:'/create',
-                    action: function (location) {
-                        return <PublisherCreate {...parseParams(location)} pageId="publisher-create"/>
+                        return <Home {...parseParams(location)}/>
                     }
                 }
+
             ]
         }
-
     ]
 };
