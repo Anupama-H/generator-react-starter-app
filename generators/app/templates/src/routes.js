@@ -1,82 +1,74 @@
 /**
  * Created by ravi.hamsa on 7/23/16.
  */
-import render from './render'
-import Home from './pages/Home';
-
-import {Unknown, UserLogin} from './pages'
+import React, {Component, PropTypes} from "react";
+import {Home, Unknown, UserLogin} from "./pages";
+import PageWrapper from './components/core/PageWrapper';
+import navController from './controllers/navController';
+import render from "./render";
+import _ from 'lodash';
 
 
 const parseParams = function (location) {
-
-    let str = location.params.attributes || '';
+  let pageId = location.params.pageId || 'home';
+  let str = location.params.attributes;
+  let paramsObj = {};
+  if (str) {
     let paramsStrings = str.split(';');
-    let paramsObj = {};
     paramsStrings.forEach(function (item) {
-        let itemParts = item.split('=');
-        let key = itemParts[0];
-        let value = itemParts[1];
-        paramsObj[key] = value;
+      let itemParts = item.split('=');
+      let key = itemParts[0];
+      let value = itemParts[1];
+      paramsObj[key] = value;
     })
-    return paramsObj;
+  }
+  paramsObj.pageId = pageId;
+  return paramsObj;
 }
 
-const emptyFunction = function () {
+const pageIdMaps = {
+  'home': Home,
+  'unknown': Unknown,
+  'login': UserLogin
 }
 
+const pageDefaultMaps = {
+  'unknown': {counter: 10}
+}
+
+let actionFunction = (location) => {
+  let pageAttributes = {...parseParams(location)};
+  let {pageId} = pageAttributes;
+  let pageDefaults = pageDefaultMaps[pageId] || {}
+  let PageComponent = pageIdMaps[pageId] || Unknown;
+  pageDefaults = _.extend({}, pageDefaults, pageAttributes);
+  navController.readPageAttributes(pageDefaults);
+  return <PageWrapper pageDefaults={pageDefaults} pageId={pageId}><PageComponent /></PageWrapper>
+}
 
 export default {
-    path: '/',
-    async action({next}) {
-        const component = await next();
-
-        let userDetails = {}
-        if (component !== undefined) {
-            return render(component, userDetails);
-        } else {
-            return render(<Unknown/>, userDetails);
-        }
-
+  path: '/',
+  async action({next}) {
+    const component = await next();
+    let userDetails = {};
+    if (component !== undefined && component !== null) {
+      return render(component, userDetails);
+    } else {
+      return render(<Unknown pageId="unknown"/>, userDetails);
+    }
+  },
+  children: [
+    {
+      path: '/',
+      action: actionFunction
     },
-    children: [
-
-        {
-            path: '/user',
-            async action({ next }) {
-                const component = await next();
-                return component;
-            },
-            children: [
-                {
-                    path:'/',
-                    action: function (location) {
-                        return <UserLogin {...parseParams(location)}/>
-                    }
-                },
-                {
-                    path:'/login',
-                    action: function (location) {
-                        return <UserLogin {...parseParams(location)}/>
-                    }
-                }
-
-            ]
-        },
-        {
-            path: '/home',
-            async action({ next }) {
-                const component = await next();
-                return component;
-            },
-            children: [
-                {
-                    path:'/',
-                    action: function (location) {
-                        return <Home {...parseParams(location)}/>
-                    }
-                }
-
-            ]
-        }
-    ]
+    {
+      path: '/:pageId',
+      action: actionFunction
+    },
+    {
+      path: '/:pageId/:attributes',
+      action: actionFunction
+    }
+  ]
 };
