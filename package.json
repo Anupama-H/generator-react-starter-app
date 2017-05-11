@@ -1,8 +1,8 @@
 {
   "name": "generator-react-starter-app",
   "version": "0.0.9",
-  "description": "Generator for Generating App to use with react-starter-app",
-  "homepage": "https://github.com/ravihamsa/react-starter-components",
+  "description": "Generator for Generating App to use with react-starter-components",
+  "homepage": "https://github.com/ravihamsa/generator-react-starter-app",
   "author": {
     "name": "Ravi Kumar Hamsa",
     "email": "ravikumar.anantha@yahoo.in",
